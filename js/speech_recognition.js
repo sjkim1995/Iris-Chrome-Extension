@@ -1,9 +1,3 @@
-/*chrome.runtime.onMessage.addListener(function(message, sender) {
-	if(!sender.tab && message.type === "start") {
-		setUpRecognition();
-	}
-});*/
-// window.addEventListener("load", setUpRecognition, false);
 setUpRecognition();
 /**
  * Checks if speech recognition is supported, creates an instance, and starts listening
@@ -28,8 +22,6 @@ function setUpRecognition() {
 	speechInput.onstart = recognitionStarted;
 	speechInput.onerror = recognitionFailed;
 	speechInput.onresult = recognitionSucceeded;
-
-	//speechInput.lang = ;
 
 	// Start speech recognition.
 	speechInput.start();
@@ -61,13 +53,6 @@ function recognitionFailed(e) {
 	chrome.tabs.create({url: chrome.extension.getURL('../index.html')}, function(tab){
 
 	})
-}
-
-var navigations = {
-	Youtube: 'http://www.youtube.com',
-	Google: 'http://www.google.com',
-	Facebook: 'http://www.facebook.com',
-	Wikipedia: 'http://www.wikipedia.org'
 }
 
 /**
@@ -108,8 +93,6 @@ function recognitionSucceeded(e) {
 		result = result.split(" ")
 		$("#loading").html("Redirecting...")
 
-
-
 		var website = result[0].toLowerCase();
 
 		var redirectURL = 'http://www.' + website;
@@ -129,8 +112,6 @@ function recognitionSucceeded(e) {
 		chrome.extension.sendRequest({"msg": "Search", "redirectUrl": final, "transcript": final_transcript})
 		window.close()
   }
-
-
 
 	// Send the most accurate interpretation of the speech.
 	chrome.extension.sendMessage({
