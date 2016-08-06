@@ -3,8 +3,8 @@
 		setUpRecognition();
 	}
 });*/
-window.addEventListener("load", setUpRecognition, false);
-const start = new Audio('../sound/start.mp3');
+// window.addEventListener("load", setUpRecognition, false);
+setUpRecognition();
 /**
  * Checks if speech recognition is supported, creates an instance, and starts listening
  */
@@ -112,7 +112,7 @@ function recognitionSucceeded(e) {
 
 		var website = result[0].toLowerCase();
 
-		redirectURL = 'http://www.' + website;
+		var redirectURL = 'http://www.' + website;
 
 		if (redirectURL.search('.com') == -1) {
 			console.log("no substring")
@@ -123,9 +123,11 @@ function recognitionSucceeded(e) {
 
 		if(searchDict[website] && searchQuery.length > 0){
 			redirectURL += searchDict[website] + searchQuery;
-		}
+		}	
 
-		window.location.href = redirectURL;
+		var final = redirectURL;
+		chrome.extension.sendRequest({"msg": "Search", "redirectUrl": final, "transcript": final_transcript})
+		window.close()
   }
 
 

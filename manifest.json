@@ -6,18 +6,19 @@
   "version": "1.0",
 
   "browser_action": {
-    "default_icon": "icon.png",
-    "default_title": "Image Getter"
+    "default_icon": "img/mic.png",
+    "default_title": "Image Getter",
+    "default_popup": "popup.html"
   },
   "permissions": [
     "activeTab",
     "https://ajax.googleapis.com/",
     "tabs"
   ],
-  "background":{
-    "persistent": true,
-    "scripts": ["js/background.js"]
-  },
+  // "background":{
+  //   "persistent": true,
+  //   "scripts": ["js/background.js"]
+  // },
 
   "content_scripts": [
     {
