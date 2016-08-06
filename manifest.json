@@ -17,5 +17,13 @@
   "background":{
     "persistent": true,
     "scripts": ["js/background.js"]
-  }
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "http://*/*"],
+      "js": ["js/content.js"],
+      "run_at": "document_end"
+    }
+  ]
 }
