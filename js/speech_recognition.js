@@ -23,14 +23,14 @@ function setUpRecognition() {
 	var speechInput = new webkitSpeechRecognition();
 	speechInput.continuous = false;
 	speechInput.interimResults = true;
-	
+
 	// Set speech API event listeners.
 	speechInput.onstart = recognitionStarted;
 	speechInput.onerror = recognitionFailed;
 	speechInput.onresult = recognitionSucceeded;
-	
+
 	//speechInput.lang = ;
-	
+
 	// Start speech recognition.
 	speechInput.start();
 
@@ -50,7 +50,7 @@ function recognitionStarted() {
  * @param {SpeechRecognitionError} e - The recognition error
  */
 function recognitionFailed(e) {
-	
+
 	console.log(e)
 	// Send error information
 	chrome.extension.sendMessage({
@@ -59,7 +59,7 @@ function recognitionFailed(e) {
 		subtext: e.error.replace(/-/g, " ")
 	});
 	chrome.tabs.create({'url': chrome.extension.getURL('../index.html')}, function(tab){
-		
+
 	})
 }
 
@@ -75,7 +75,7 @@ var navigations = {
  * @param {SpeechRecognitionEvent} e - The speech recognition result event
  */
 function recognitionSucceeded(e) {
-	
+
 	// If no result was returned, send an error and then exit.
 	if(e.results.length === 0) {
 		alert("nothing heard")
@@ -85,23 +85,24 @@ function recognitionSucceeded(e) {
 		});
 		return;
 	}
-    var interim_transcript = '';
-    var final_transcript = '';
-    for (var i = e.resultIndex; i < e.results.length; ++i) {
-      if (e.results[i].isFinal) {
-        final_transcript += e.results[i][0].transcript;
-      } else {
-        interim_transcript += e.results[i][0].transcript;
-      }
+
+  var interim_transcript = '';
+  var final_transcript = '';
+  for (var i = e.resultIndex; i < e.results.length; ++i) {
+    if (e.results[i].isFinal) {
+      final_transcript += e.results[i][0].transcript;
+    } else {
+      interim_transcript += e.results[i][0].transcript;
     }
-    
-    // final_span.innerHTML = linebreak(final_transcript);
-    $("#interim").html(interim_transcript);
+  }
+
+  // final_span.innerHTML = linebreak(final_transcript);
+  $("#interim").html(interim_transcript);
 
 	var result = e.results[0][0].transcript;
 	result = result.split(" ")
 	$("#loading").html("Redirecting...")
-	redirectURL = 'http://www.' + result.join(''); 
+	redirectURL = 'http://www.' + result.join('');
 	if (redirectURL.search('.com') == -1) {
 		console.log("no substring")
 		redirectURL += '.com';
