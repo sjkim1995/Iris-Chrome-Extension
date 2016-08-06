@@ -58,7 +58,7 @@ function recognitionFailed(e) {
 		text: "An error occurred",
 		subtext: e.error.replace(/-/g, " ")
 	});
-	chrome.tabs.create({'url': chrome.extension.getURL('../index.html')}, function(tab){
+	chrome.tabs.create({url: chrome.extension.getURL('../index.html')}, function(tab){
 
 	})
 }
@@ -75,6 +75,11 @@ var navigations = {
  * @param {SpeechRecognitionEvent} e - The speech recognition result event
  */
 function recognitionSucceeded(e) {
+	var searchDict = {
+		ebay: '/sch/?_nkw=',
+		youtube: '/results?search_query=',
+		amazon: '/s/?url=search-alias%3Daps&field-keywords='
+	};
 
 	// If no result was returned, send an error and then exit.
 	if(e.results.length === 0) {
@@ -85,7 +90,6 @@ function recognitionSucceeded(e) {
 		});
 		return;
 	}
-
   var interim_transcript = '';
   var final_transcript = '';
   for (var i = e.resultIndex; i < e.results.length; ++i) {
@@ -99,16 +103,31 @@ function recognitionSucceeded(e) {
   // final_span.innerHTML = linebreak(final_transcript);
   $("#interim").html(interim_transcript);
 
-	var result = e.results[0][0].transcript;
-	result = result.split(" ")
-	$("#loading").html("Redirecting...")
-	redirectURL = 'http://www.' + result.join('');
-	if (redirectURL.search('.com') == -1) {
-		console.log("no substring")
-		redirectURL += '.com';
-	}
+  if(final_transcript.length > 2){
+  	var result = final_transcript;
+		result = result.split(" ")
+		$("#loading").html("Redirecting...")
 
-	window.location.href = redirectURL;
+
+
+		var website = result[0].toLowerCase();
+
+		redirectURL = 'http://www.' + website;
+
+		if (redirectURL.search('.com') == -1) {
+			console.log("no substring")
+			redirectURL += '.com';
+		}
+
+		var searchQuery = result.slice(1).join('+');
+
+		if(searchDict[website] && searchQuery.length > 0){
+			redirectURL += searchDict[website] + searchQuery;
+		}
+
+		window.location.href = redirectURL;
+  }
+
 
 
 	// Send the most accurate interpretation of the speech.
