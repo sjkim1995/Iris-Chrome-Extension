@@ -11,5 +11,15 @@
   text-align: center;
   text-shadow: 1px 1px 1px #076bd2;
   letter-spacing: normal;
+  margin: 0 auto;
 }
 
+img {
+  margin: 0 auto;
+  display: block;
+}
+
+#interim {
+ text-align: center;
+ font-size: 1.1em;
+}

@@ -6,10 +6,12 @@ chrome.tabs.create({'url': chrome.extension.getURL('index.html'), 'active': fals
 	    audio: true,
 	}, function(stream) {
 	    stream.stop();
-	   	
+
 	    // Now you know that you have audio permission. Do whatever you want...
 	}, function() {
 	    // Aw. No permission (or no microphone available).
 	});
-})
+});
+
+
 

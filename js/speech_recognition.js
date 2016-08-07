@@ -63,7 +63,13 @@ function recognitionSucceeded(e) {
 	var searchDict = {
 		ebay: '/sch/?_nkw=',
 		youtube: '/results?search_query=',
-		amazon: '/s/?url=search-alias%3Daps&field-keywords='
+		amazon: '/s/?url=search-alias%3Daps&field-keywords=',
+		google: '/search?q=',
+		wikipedia: '/wiki/',
+		facebook: '/search/top/?q=',
+		bing: '/search?q=',
+		yahoo: '/search?p=gym',
+		twitter: '/search?q='
 	};
 
 	// If no result was returned, send an error and then exit.
@@ -105,8 +111,14 @@ function recognitionSucceeded(e) {
 		var searchQuery = result.slice(1).join('+');
 
 		if(searchDict[website] && searchQuery.length > 0){
-			redirectURL += searchDict[website] + searchQuery;
-		}	
+			if(website === 'yahoo') {
+				redirectURL = 'http://search.yahoo.com' + searchDict[website] + searchQuery;
+			} else {
+				redirectURL += searchDict[website] + searchQuery;
+			}
+		} else {
+			redirectURL = 'http://www.google.com' + searchDict['google'] + result.join('+');
+ 		}
 
 		var final = redirectURL;
 		chrome.extension.sendRequest({"msg": "Search", "redirectUrl": final, "transcript": final_transcript})
