@@ -2,15 +2,15 @@ var timer;
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
 
 	$("#myBar").css("display", "block")
-	var elem = document.getElementById("myBar"); 
+	var elem = document.getElementById("myBar");
 	var width = 1;
 	var id = setInterval(frame, 10);
 	function frame() {
 	    if (width >= 100) {
 	        clearInterval(id);
 	    } else {
-	        width++; 
-	        elem.style.width = width + '%'; 
+	        width++;
+	        elem.style.width = width + '%';
 	    }
 	}
 	if(request.msg == "Search") {
@@ -28,7 +28,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
 		$(".cancel").css("display", "block")
 		timer = setTimeout(function() {
 			chrome.tabs.create({'url': request.redirectUrl, 'active': false}, function(tab){
-
+			window.close();
 			})
 		}, 1000)
 	}
