@@ -1,7 +1,5 @@
 setUpRecognition();
-/**
- * Checks if speech recognition is supported, creates an instance, and starts listening
- */
+
 function setUpRecognition() {
 	// start.play()
 	// Check if speech recognition is supported, and send an error if it is not.
@@ -28,19 +26,14 @@ function setUpRecognition() {
 
 }
 
-/**
- * Called when speech recognition has begun
- */
+// Start recognition
 function recognitionStarted() {
 	chrome.extension.sendMessage({
 		type: "ready"
 	});
 }
 
-/**
- * Callback for unsuccessful speech recognition
- * @param {SpeechRecognitionError} e - The recognition error
- */
+// Recognition failure callback
 function recognitionFailed(e) {
 
 	console.log(e)
@@ -55,10 +48,22 @@ function recognitionFailed(e) {
 	})
 }
 
-/**
- * Callback for successful speech recognition
- * @param {SpeechRecognitionEvent} e - The speech recognition result event
- */
+function ValidURL(str) {
+  var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
+    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
+    '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
+    '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
+    '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
+    '(\#[-a-z\d_]*)?$','i'); // fragment locater
+  if(!pattern.test(str)) {
+    alert("Please enter a valid URL.");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+// Success callback
 function recognitionSucceeded(e) {
 	var searchDict = {
 		ebay: '/sch/?_nkw=',
@@ -117,7 +122,8 @@ function recognitionSucceeded(e) {
 				redirectURL += searchDict[website] + searchQuery;
 			}
 		} else {
-			redirectURL = 'http://www.google.com' + searchDict['google'] + result.join('+');
+			redirectURL = redirectURL;
+			// 'http://www.google.com' + searchDict['google'] + result.join('+');
  		}
 
 		var final = redirectURL;

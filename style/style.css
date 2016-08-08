@@ -23,3 +23,7 @@ img {
  text-align: center;
  font-size: 1.1em;
 }
+
+#myBar {
+  display: none;
+}
