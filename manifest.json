@@ -23,7 +23,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
+      "matches": ["http://www.youtubeinmp3.com/*"],
       "js": ["js/jquery.min.js", "js/mp3.js"],
       "run_at": "document_end"
     }

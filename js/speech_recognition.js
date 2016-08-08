@@ -118,7 +118,7 @@ function recognitionSucceeded(e) {
 					window.close()
 				}
 			})
-		
+
 		} else {
 			redirectURL = 'http://www.' + website;
 
@@ -130,14 +130,16 @@ function recognitionSucceeded(e) {
 				} else {
 					redirectURL += ".com" + searchDict[website] + searchQuery;
 				}
-			} else if (redirectURL.search('.com') == -1 && redirectURL.search('.org') == -1 && redirectURL.search('.net') == -1) {
+			} else if (redirectURL.search('.') == -1) {
 				redirectURL = 'http://www.google.com' + searchDict['google'] + result.join('+');
-	 		}
+	 		} else {
+        redirectURL = redirectURL.split(' ').join('');
+      }
 			var final = redirectURL;
 			chrome.extension.sendRequest({"msg": "Search", "redirectUrl": final, "transcript": final_transcript})
-			window.close()
+			window.close();
 		}
-		
+
   }
 
 }
