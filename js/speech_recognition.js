@@ -101,36 +101,43 @@ function recognitionSucceeded(e) {
 
   if(final_transcript.length > 2){
   	var result = final_transcript;
-		result = result.split(" ")
+	result = result.split(" ")
+	var redirectURL;
 		$("#loading").html("Redirecting...")
 
 		var website = result[0].toLowerCase();
+		if (website == 'download') {
+			var currentUrl;
+			chrome.tabs.query({'lastFocusedWindow': true, 'active': true}, function(tabs){
+				currentUrl = tabs[0].url;
 
-		var redirectURL = 'http://www.' + website;
-
-		var searchQuery = result.slice(1).join('+');
-
-		if(searchDict[website] && searchQuery.length > 0){
-			if(website === 'yahoo') {
-				redirectURL = 'http://search.yahoo.com' + searchDict[website] + searchQuery;
-			} else {
-				redirectURL += searchDict[website] + searchQuery;
-			}
+				if (currentUrl.search('youtube.com/watch?') !== -1 ) {
+					redirectURL = 'http://www.youtubeinmp3.com/download/?video=' + currentUrl;
+					var final = redirectURL;
+					chrome.extension.sendRequest({'msg': 'Download', "redirectUrl": final, "transcript": "Downloading mp3"} );
+					window.close()
+				}
+			})
+		
 		} else {
-			if (redirectURL.search('.com') == -1 && redirectURL.search('.org') == -1 && redirectURL.search('.net') == -1) {
-				redirectURL = 'http://www.google.com' + searchDict['google'] + result.join('+');
-			}
-			
- 		}
+			redirectURL = 'http://www.' + website;
 
-		var final = redirectURL;
-		chrome.extension.sendRequest({"msg": "Search", "redirectUrl": final, "transcript": final_transcript})
-		window.close()
+			var searchQuery = result.slice(1).join('+');
+
+			if(searchDict[website] && searchQuery.length > 0){
+				if(website === 'yahoo') {
+					redirectURL = 'http://search.yahoo.com' + searchDict[website] + searchQuery;
+				} else {
+					redirectURL += ".com" + searchDict[website] + searchQuery;
+				}
+			} else if (redirectURL.search('.com') == -1 && redirectURL.search('.org') == -1 && redirectURL.search('.net') == -1) {
+				redirectURL = 'http://www.google.com' + searchDict['google'] + result.join('+');
+	 		}
+			var final = redirectURL;
+			chrome.extension.sendRequest({"msg": "Search", "redirectUrl": final, "transcript": final_transcript})
+			window.close()
+		}
+		
   }
 
-	// Send the most accurate interpretation of the speech.
-	chrome.extension.sendMessage({
-		type: "result",
-		text: e.results[e.resultIndex][0].transcript
-	});
 }

@@ -13,6 +13,16 @@
   "permissions": [
     "activeTab",
     "https://ajax.googleapis.com/",
-    "tabs"
+    "tabs",
+    "activeTab",
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["js/jquery.min.js", "js/mp3.js"],
+      "run_at": "document_end"
+    }
+
   ]
 }
