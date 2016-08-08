@@ -1,6 +1,6 @@
 var timer;
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
-	console.log(request)
+
 	$("#myBar").css("display", "block")
 	var elem = document.getElementById("myBar"); 
 	var width = 1;
@@ -23,6 +23,14 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
 			})
 		}, 1000)
 
+	} else if (request.msg == "Download"){
+		$("#interim").html(request.transcript)
+		$(".cancel").css("display", "block")
+		timer = setTimeout(function() {
+			chrome.tabs.create({'url': request.redirectUrl, 'active': false}, function(tab){
+
+			})
+		}, 1000)
 	}
 })
 
