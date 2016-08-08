@@ -3,7 +3,7 @@
 
   "name": "Iris",
   "description": "Voice control extension",
-  "version": "1.1",
+  "version": "1.2",
 
   "icons": { "16": "img/mic.png",
            "48": "img/mic.png",
