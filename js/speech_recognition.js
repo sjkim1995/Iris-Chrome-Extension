@@ -133,7 +133,7 @@ function recognitionSucceeded(e) {
 			} else if (redirectURL.search('.') == -1) {
 				redirectURL = 'http://www.google.com' + searchDict['google'] + result.join('+');
 	 		} else {
-        redirectURL = redirectURL.split(' ').join('');
+        redirectURL = 'http://' + result.join('');
       }
 			var final = redirectURL;
 			chrome.extension.sendRequest({"msg": "Search", "redirectUrl": final, "transcript": final_transcript})
