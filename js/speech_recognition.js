@@ -108,11 +108,6 @@ function recognitionSucceeded(e) {
 
 		var redirectURL = 'http://www.' + website;
 
-		if (redirectURL.search('.com') == -1) {
-			console.log("no substring")
-			redirectURL += '.com';
-		}
-
 		var searchQuery = result.slice(1).join('+');
 
 		if(searchDict[website] && searchQuery.length > 0){
@@ -122,8 +117,10 @@ function recognitionSucceeded(e) {
 				redirectURL += searchDict[website] + searchQuery;
 			}
 		} else {
-			redirectURL = redirectURL;
-			// 'http://www.google.com' + searchDict['google'] + result.join('+');
+			if (redirectURL.search('.com') == -1 && redirectURL.search('.org') == -1 && redirectURL.search('.net') == -1) {
+				redirectURL = 'http://www.google.com' + searchDict['google'] + result.join('+');
+			}
+			
  		}
 
 		var final = redirectURL;
