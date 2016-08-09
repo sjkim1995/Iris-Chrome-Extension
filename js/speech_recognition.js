@@ -130,10 +130,11 @@ function recognitionSucceeded(e) {
 				} else {
 					redirectURL += ".com" + searchDict[website] + searchQuery;
 				}
-			} else if (redirectURL.search('.') == -1) {
+			} else if (final_transcript.indexOf('.') == -1) {
 				redirectURL = 'http://www.google.com' + searchDict['google'] + result.join('+');
 	 		} else {
         redirectURL = 'http://' + result.join('');
+        final_transcript = result.join('');
       }
 			var final = redirectURL;
 			chrome.extension.sendRequest({"msg": "Search", "redirectUrl": final, "transcript": final_transcript})

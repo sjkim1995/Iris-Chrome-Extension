@@ -13,8 +13,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
 	        elem.style.width = width + '%';
 	    }
 	}
-	if(request.msg == "Search") {
 
+	if(request.msg == "Search") {
 		$("#interim").html(request.transcript)
 		$(".cancel").css("display", "block")
 		timer = setTimeout(function() {
